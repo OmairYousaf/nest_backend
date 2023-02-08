@@ -12,18 +12,28 @@ const core_1 = require("@nestjs/core");
 const client_1 = require("@prisma/client");
 let PrismaClientExceptionFilter = class PrismaClientExceptionFilter extends core_1.BaseExceptionFilter {
     catch(exception, host) {
+        console.log('filter called.....');
         console.error(exception.message);
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
-        var message = exception.message.replace(/\n/g, '');
+        var message = exception.message;
         switch (exception.code) {
             case 'P2002': {
+                message = 'Data already exist.';
                 const status = common_1.HttpStatus.CONFLICT;
                 response.status(status).json({
                     statusCode: status,
                     message: message,
                 });
                 break;
+            }
+            case 'P2025': {
+                message = 'Record not Found';
+                const status = common_1.HttpStatus.NOT_FOUND;
+                response.status(status).json({
+                    statusCode: status,
+                    message: message,
+                });
             }
             default:
                 super.catch(exception, host);

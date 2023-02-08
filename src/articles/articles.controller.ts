@@ -34,11 +34,11 @@ export class ArticlesController {
   @Get(':id')
   @ApiOkResponse({ type: ArticleEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    const article = await this.articlesService.findOne(id)
-    if (!article) {
-      throw new NotFoundException(`Article with ${id} does not exist.`)
-    }
-    return article;
+    return await this.articlesService.findOne(id)
+    // if (!article) {
+    //   throw new NotFoundException(`Article with ${id} does not exist.`)
+    // }
+    // return article;
   }
 
   @Patch(':id')

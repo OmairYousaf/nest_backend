@@ -26,7 +26,8 @@ let ArticlesService = class ArticlesService {
         return this.prisma.article.findMany({ where: { published: false } });
     }
     findOne(id) {
-        return this.prisma.article.findUnique({ where: { id } });
+        console.log('servise called...');
+        return this.prisma.article.findUniqueOrThrow({ where: { id } });
     }
     update(id, updateArticleDto) {
         return this.prisma.article.update({

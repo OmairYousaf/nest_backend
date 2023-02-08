@@ -33,11 +33,7 @@ let ArticlesController = class ArticlesController {
         return this.articlesService.findAll();
     }
     async findOne(id) {
-        const article = await this.articlesService.findOne(id);
-        if (!article) {
-            throw new common_1.NotFoundException(`Article with ${id} does not exist.`);
-        }
-        return article;
+        return await this.articlesService.findOne(id);
     }
     update(id, updateArticleDto) {
         return this.articlesService.update(id, updateArticleDto);

@@ -24,8 +24,9 @@ export class ArticlesService {
   }
 
   findOne(id: number) {
+    console.log('servise called...')
     // return `This action returns a #${id} article`;
-    return this.prisma.article.findUnique({ where: { id } })
+    return this.prisma.article.findUniqueOrThrow({ where: { id } })
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
