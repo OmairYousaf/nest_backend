@@ -17,18 +17,22 @@ let ItemService = class ItemService {
         this.prisma = prisma;
     }
     create(createItemDto) {
+        return this.prisma.item.create({ data: createItemDto });
     }
     findAll() {
-        return `This action returns all item`;
+        return this.prisma.item.findMany();
     }
     findOne(id) {
-        return `This action returns a #${id} item`;
+        return this.prisma.item.findUniqueOrThrow({ where: { id } });
     }
     update(id, updateItemDto) {
-        return `This action updates a #${id} item`;
+        return this.prisma.item.update({
+            where: { id },
+            data: updateItemDto
+        });
     }
     remove(id) {
-        return `This action removes a #${id} item`;
+        return this.prisma.item.delete({ where: { id } });
     }
 };
 ItemService = __decorate([

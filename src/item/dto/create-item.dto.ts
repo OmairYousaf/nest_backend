@@ -8,7 +8,8 @@ export class CreateItemDto {
     @IsNumber()
     @IsNotEmpty()
     itemCost: number;
-
+    @IsString()
+    @IsNotEmpty()
     description?: string;
 
 
