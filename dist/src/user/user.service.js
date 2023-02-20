@@ -17,20 +17,11 @@ let UserService = class UserService {
         this.prisma = prisma;
     }
     async create(createUserDto) {
-        const { name, email, password, bio } = createUserDto;
         const createdUser = await this.prisma.user.create({
             data: {
-                name,
-                email,
-                password,
-                profile: {
-                    create: {
-                        bio,
-                    },
-                },
-            },
-            include: {
-                profile: true,
+                name: createUserDto.name,
+                email: createUserDto.email,
+                password: createUserDto.password,
             },
         });
         return createdUser;
@@ -38,7 +29,7 @@ let UserService = class UserService {
     findAll() {
         return this.prisma.user.findMany({
             include: {
-                profile: true,
+                profile: true
             },
         });
     }
@@ -51,42 +42,24 @@ let UserService = class UserService {
         });
     }
     update(id, updateUserDto) {
-        const { name, email, password, bio } = updateUserDto;
         return this.prisma.user.update({
             where: { id: (id) },
             data: {
-                name,
-                email,
-                password,
-                profile: {
-                    upsert: {
-                        create: {
-                            bio,
-                        },
-                        update: {
-                            bio,
-                        },
-                    },
-                },
-            },
-            include: {
-                profile: true,
+                name: updateUserDto.name,
+                email: updateUserDto.email,
+                password: updateUserDto.password,
             },
         });
     }
-    remove(id) {
+    async remove(id) {
         const userId = parseInt(id.toString(), 10);
-        return this.prisma.$transaction(async (prisma) => {
-            const profile = await prisma.profile.findUnique({
-                where: { userId },
-            });
-            await prisma.profile.delete({
-                where: { id: profile.id },
-            });
-            await prisma.user.delete({
-                where: { id: userId },
-            });
-        });
+        const profile = await this.prisma.profile.findUnique({ where: { id } });
+        if (!!profile) {
+            return `Profile already exist against ID ${userId} \n Remove profile first.`;
+        }
+        else {
+            return this.prisma.user.delete({ where: { id: userId } });
+        }
     }
 };
 UserService = __decorate([

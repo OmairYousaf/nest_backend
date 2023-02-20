@@ -9,22 +9,22 @@ export class UserService {
   constructor(private prisma: PrismaService) { }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { name, email, password, bio } = createUserDto;
+    // const { name, email, password, bio } = createUserDto;
 
     const createdUser = await this.prisma.user.create({
       data: {
-        name,
-        email,
-        password,
-        profile: {
-          create: {
-            bio,
-          },
-        },
+        name: createUserDto.name,
+        email: createUserDto.email,
+        password: createUserDto.password,
+        // profile: {
+        //   create: {
+        //     bio,
+        //   },
+        // },
       },
-      include: {
-        profile: true,
-      },
+      // include: {
+      //   profile: true,
+      // },
     });
 
     return createdUser;
@@ -33,7 +33,7 @@ export class UserService {
   findAll() {
     return this.prisma.user.findMany({
       include: {
-        profile: true,
+        profile: true
       },
     });
   }
@@ -48,49 +48,65 @@ export class UserService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    const { name, email, password, bio } = updateUserDto;
+    // const { name, email, password, bio } = updateUserDto;
 
     return this.prisma.user.update({
       where: { id: (id) },
       data: {
-        name,
-        email,
-        password,
-        profile: {
-          upsert: {
-            create: {
-              bio,
-            },
-            update: {
-              bio,
-            },
-          },
-        },
+        name: updateUserDto.name,
+        email: updateUserDto.email,
+        password: updateUserDto.password,
+        // profile: {
+        //   upsert: {
+        //     create: {
+        //       bio,
+        //     },
+        //     update: {
+        //       bio,
+        //     },
+        //   },
+        // },
       },
-      include: {
-        profile: true,
-      },
+      // include: {
+      //   profile: true,
+      // },
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+
     const userId = parseInt(id.toString(), 10);
+    // console.log(userId)
+    const profile = await this.prisma.profile.findUnique({ where: { id } })
+    if (!!profile) {
+      return `Profile already exist against ID ${userId} \n Remove profile first.`
+    }
+    else {
+      return this.prisma.user.delete({ where: { id: userId } })
+    }
+    // return this.prisma.user.delete({ where: { id } })
+    // return this.prisma.$transaction(async (prisma) => {
 
-    return this.prisma.$transaction(async (prisma) => {
-      // Find the user's profile
-      const profile = await prisma.profile.findUnique({
-        where: { userId },
-      });
+    //   if (this.prisma.profile === null) {
+    //     console.log('profile is null')
+    //     this.prisma.user.delete({ where: { id: userId } })
+    //   }
+    //   else {
+    //     // Find the user's profile
+    //     const profile = await prisma.profile.findUnique({
+    //       where: { userId },
+    //     });
 
-      // Delete the user's profile
-      await prisma.profile.delete({
-        where: { id: profile.id },
-      });
+    //     // Delete the user's profile
+    //     await prisma.profile.delete({
+    //       where: { id: profile.id },
+    //     });
 
-      // Delete the user
-      await prisma.user.delete({
-        where: { id: userId },
-      });
-    });
+    //     // Delete the user
+    //     await prisma.user.delete({
+    //       where: { id: userId },
+    //     });
+    //   }
+    // });
   }
 }

@@ -11,8 +11,6 @@ export declare class UserController {
     findOne(id: string): import(".prisma/client").Prisma.Prisma__UserClient<import(".prisma/client").User & {
         profile: import(".prisma/client").Profile;
     }, never>;
-    update(id: string, updateUserDto: UpdateUserDto): import(".prisma/client").Prisma.Prisma__UserClient<import(".prisma/client").User & {
-        profile: import(".prisma/client").Profile;
-    }, never>;
-    remove(id: string): Promise<void>;
+    update(id: string, updateUserDto: UpdateUserDto): import(".prisma/client").Prisma.Prisma__UserClient<import(".prisma/client").User, never>;
+    remove(id: string): Promise<string | import(".prisma/client").User>;
 }

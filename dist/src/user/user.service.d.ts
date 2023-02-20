@@ -12,8 +12,6 @@ export declare class UserService {
     findOne(id: number): import(".prisma/client").Prisma.Prisma__UserClient<User & {
         profile: import(".prisma/client").Profile;
     }, never>;
-    update(id: number, updateUserDto: UpdateUserDto): import(".prisma/client").Prisma.Prisma__UserClient<User & {
-        profile: import(".prisma/client").Profile;
-    }, never>;
-    remove(id: number): Promise<void>;
+    update(id: number, updateUserDto: UpdateUserDto): import(".prisma/client").Prisma.Prisma__UserClient<User, never>;
+    remove(id: number): Promise<string | User>;
 }

@@ -12,71 +12,69 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserController = void 0;
+exports.ProfileController = void 0;
 const common_1 = require("@nestjs/common");
-const user_service_1 = require("./user.service");
-const create_user_dto_1 = require("./dto/create-user.dto");
-const update_user_dto_1 = require("./dto/update-user.dto");
-const swagger_1 = require("@nestjs/swagger");
-let UserController = class UserController {
-    constructor(userService) {
-        this.userService = userService;
+const profile_service_1 = require("./profile.service");
+const create_profile_dto_1 = require("./dto/create-profile.dto");
+const update_profile_dto_1 = require("./dto/update-profile.dto");
+let ProfileController = class ProfileController {
+    constructor(profileService) {
+        this.profileService = profileService;
     }
-    create(createUserDto) {
-        return this.userService.create(createUserDto);
+    create(createProfileDto) {
+        return this.profileService.create(createProfileDto);
     }
     findAll() {
-        return this.userService.findAll();
+        return this.profileService.findAll();
     }
     findOne(id) {
-        return this.userService.findOne(+id);
+        return this.profileService.findOne(+id);
     }
-    update(id, updateUserDto) {
-        return this.userService.update(+id, updateUserDto);
+    update(id, updateProfileDto) {
+        return this.profileService.update(+id, updateProfileDto);
     }
-    async remove(id) {
-        return await this.userService.remove(+id);
+    remove(id) {
+        return this.profileService.remove(+id);
     }
 };
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
+    __metadata("design:paramtypes", [create_profile_dto_1.CreateProfileDto]),
     __metadata("design:returntype", void 0)
-], UserController.prototype, "create", null);
+], ProfileController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], UserController.prototype, "findAll", null);
+], ProfileController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], UserController.prototype, "findOne", null);
+], ProfileController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto]),
+    __metadata("design:paramtypes", [String, update_profile_dto_1.UpdateProfileDto]),
     __metadata("design:returntype", void 0)
-], UserController.prototype, "update", null);
+], ProfileController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], UserController.prototype, "remove", null);
-UserController = __decorate([
-    (0, common_1.Controller)('user'),
-    (0, swagger_1.ApiTags)('users'),
-    __metadata("design:paramtypes", [user_service_1.UserService])
-], UserController);
-exports.UserController = UserController;
-//# sourceMappingURL=user.controller.js.map
+    __metadata("design:returntype", void 0)
+], ProfileController.prototype, "remove", null);
+ProfileController = __decorate([
+    (0, common_1.Controller)('profile'),
+    __metadata("design:paramtypes", [profile_service_1.ProfileService])
+], ProfileController);
+exports.ProfileController = ProfileController;
+//# sourceMappingURL=profile.controller.js.map
